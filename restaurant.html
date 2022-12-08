@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KG Food Order | Restaurants</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" type="text/css" href="restaurantcss/restPanel.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="JS/logout.js"></script>
+    <style>
+        td, tr {
+            color: black;
+        }
+    .recentCustomers table  tr:hover{
+            background:darkgrey;
+            color:white;
+    }
+    .recentCustomers{
+        width: 150px;
+    }
+
+    </style>
+<script>
+  
+ 
+
+    var xhr2 = new XMLHttpRequest();
+          xhr2.onreadystatechange = function () {
+              if (xhr2.readyState === 3) {
+                // alert(xhr2.response)
+                sessionStorage.setItem("restaurantCategories", xhr2.responseText);
+                  } 
+              }
+          
+          xhr2.open('get', 'http://localhost:5236/api/RestaurantCategory', true);
+          xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+          xhr2.send();
+        
+        
+  </script>
+
+            
+</head>
+<body style="background-color:rgb(153, 153, 153);">
+<header>
+    <a href="index.html" class="logo"><img src="logo.png"></a>
+
+    <nav class="navbar">
+        <a  href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a class="active" href="restaurant.html">Restaurants</a>
+        <a onclick="logoutFunction()">Log out</a> <!--temporarily-->
+        
+    </nav>
+
+    <div class="icons">
+        <i class="fas fa-bars" id="menu-bars"></i>
+        <input id="searchContent" type="text" placeholder="Search"  autocapitalize="off">
+        <button class="fas fa-search" id="search-icon"  onclick="searchRestaurants()"></button>
+        <a href="cart.html" class="fas fa-shopping-cart"></a>
+    </div>
+
+    <script>
+        function searchRestaurants(){
+            const content= document.getElementById("searchContent");
+// alert(content.value);
+        
+        if(content.value.length!=0){
+
+            var xhr4 = new XMLHttpRequest();
+                                    xhr4.onreadystatechange = function () {
+                                        if (xhr4.readyState === 3) {
+                                          
+                                        updateRestaurants(xhr4.responseText);
+                                          
+                                            } 
+                                        }
+                                    
+                                        var str= "http://localhost:5236/api/Restaurant/SearchRestaurants/";
+                                        str+=content.value.toLowerCase();
+                                       
+                                    xhr4.open('get', str, true);
+                                    xhr4.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                                    xhr4.send();
+
+        }else{
+            updateRestaurants(sessionStorage.getItem("allRestaurants"));
+        }
+        }
+               sessionStorage.removeItem("allItems");                       
+    </script>
+</header>
+
+<section id="testimonials" class="py-3">
+    <div class="container2" >
+        <div class="details"  >
+            <!--order details list-->
+           <div class="recentOrders" style="background-color: gold;">
+               <div class="cardHeader" style="font-weight: 600; ">
+                   <h2 style="font-weight: 600;color: black;">Restaurants Available</h2>
+                   
+               </div>
+               <table>
+                   <thead>
+                       <tr>
+                           <td>Restaurant Name</td>
+                           <td>Restaurant category</td>
+                           <td>Number</td>
+                           <td>Address</td>
+                           <td></td>
+                       </tr>
+                   </thead>
+                   <tbody id="restaurantsAv">
+                       <!-- <tr>
+                           <td>Name 1</td>
+                           <td>Cat 1</td>
+                           <td>Number 1</td>
+                           <td>Address 1</td>
+                           <td><a href="view-menu.html" class="status delivered">View Menu</a></td>
+                       </tr> -->
+
+                   </tbody>
+
+                   <script>
+                       const table1= document.getElementById("restaurantsAv");
+                    
+                    var xhr = new XMLHttpRequest();
+                            xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 3) {
+                                    sessionStorage.setItem("allRestaurants", xhr.responseText);
+                                    updateRestaurants(xhr.responseText);
+                             }
+                            }
+            
+                            xhr.open('get', 'http://localhost:5236/api/Restaurant', true);
+                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                            xhr.send();
+                            
+            
+
+
+                            function updateRestaurants(rlist){
+                                
+
+                              
+
+                              table1.innerHTML="";
+
+
+                                var myObj= JSON.parse(rlist);
+                                       
+                                     for (let i = 0; i < myObj.length ; i++) {
+                                        var elm = table1.insertRow();
+                                   
+                                            for(let j=0; j<5; j++){
+                                                var col=elm.insertCell();
+                                                switch(j){
+                                                    case 0: col.innerHTML="<td>"+myObj[i].name+"</td>";break;
+                                                    case 1: col.innerHTML="<td>"+getCategory(myObj[i].categoryid)+"</td>";break;
+                                                    case 2: col.innerHTML="<td>"+myObj[i].phonenumber+"</td>";break;
+                                                    case 3: col.innerHTML="<td>"+myObj[i].address+"</td>";break;
+                                                    case 4: col.innerHTML="<td><Button class=\"status delivered\"  id=\"menu"+myObj[i].restaurantid+"\"style=\"cursor:pointer;\" onclick=\"viewMenu("+myObj[i].restaurantid+")\">View Menu</Button>";break;
+
+                                                }
+                                          }
+                                     } 
+                            }
+
+                            function getCategory(catId){
+
+                             
+
+                                
+                                const jobjCat= JSON.parse(sessionStorage.getItem("restaurantCategories"));
+
+                                for(let i=0; i<jobjCat.length; i++){
+
+                                    if(catId==jobjCat[i].categoryid){
+
+                                        return jobjCat[i].categoryname;
+
+                                    }
+                                }
+                                return "not set";
+                            }
+
+                            function viewMenu(resid){
+                              
+                                sessionStorage.setItem("currentViewMenuId", resid);
+                                window.location.href="view-menu.html";
+                            }
+                </script>
+               </table>
+           </div>
+           <div class="recentCustomers" style="background: gold;">
+            <div class="cardHeader">
+                <h2 style="color: black;">Filter</h2> 
+            </div>
+            <table id="recentcustomers">
+                <thead>
+                    <tr>
+                        <td>Restaurant Category</td>
+                </thead>
+                <tbody id="categoriesss">
+                <tr style="display:grid; color: black;"> 
+
+                     
+
+                </tr>
+               
+            </tbody>
+            <script>
+                const table2=document.getElementById("categoriesss");
+                const jobj= JSON.parse(sessionStorage.getItem("restaurantCategories"));
+                for (let i = 0; i < jobj.length ; i++) {
+                    var elm2 = table2.insertRow();
+                    
+
+                         var coll=elm2.insertCell();
+                         coll.innerHTML="  <td><input type=\"radio\" name=\"cat\" onClick=\"filterRestaurants("+jobj[i].categoryid+")\"> "+jobj[i].categoryname+"</td>";
+                }
+                   var elem3= table2.insertRow();
+                   var col3= elem3.insertCell();
+                   col3.innerHTML="   <td><button class=\"status canceled\" onClick=\"clearOptions()\">Clear</button></td>"; 
+
+
+                   function clearOptions(){
+
+                    document.querySelector('input[name="cat"]:checked').checked = false;
+                    updateRestaurants(sessionStorage.getItem("allRestaurants"));
+
+                   }
+
+                   function filterRestaurants(cat){
+           
+                    var xhr3 = new XMLHttpRequest();
+                                    xhr3.onreadystatechange = function () {
+                                        if (xhr3.readyState === 3) {
+                                          
+                                        updateRestaurants(xhr3.responseText);
+                                          
+                                            } 
+                                        }
+                                    
+                                        var str= "http://localhost:5236/api/Restaurant/RestaurantCategory/";
+                                        str+=getCategory(cat);
+                                       
+                                    xhr3.open('get', str, true);
+                                    xhr3.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                                    xhr3.send();
+
+                                      }
+
+
+            </script>
+            </table>
+           </div>
+    </div>
+    </section>
+  
+    
+    <!-- <footer id="main-footer">
+        <p>KG Food Order  &copy; 2022, All Rights Reserved - Khalil Kahwaji & Georges AL Hajj </p>
+    </footer> -->
+</body>
+</html>

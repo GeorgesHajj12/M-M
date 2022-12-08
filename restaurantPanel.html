@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Restaurant Panel | Dashboard</title>
+        <link rel="stylesheet" type="text/css" href="restaurantcss/restPanel.css">
+        <link rel="stylesheet" type="text/css" href="ordermanagement.css">
+        <script src="JS/logout.js"></script> 
+
+        <script src="JS/manageSession.js">
+            
+        </script> 
+
+        <script>
+            getItemsFromId(sessionStorage.getItem("restaurantid"));
+            // alert(sessionStorage.getItem("allitems"));
+            const resUsername= sessionStorage.getItem("restaurantusername");
+            var status="[{\"statusid\": 1,\"statusname\": \"pending\"},{\"statusid\": 2,\"statusname\": \"delivered\"},{\"statusid\": 3,\"statusname\": \"canceled\"}]"
+            sessionStorage.setItem("status", status);
+
+            var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 3) {
+               var myObj= JSON.parse(xhr.responseText);
+               const sel= document.getElementById("selector");
+                
+                for (let i = 0; i < myObj.length ; i++) {
+                  var txt= (i+1)+"-"+myObj[i].categoryname;
+                    //alert(txt);
+                    const option = new Option(txt ,txt);
+                    sel.add(option, undefined);
+                } 
+            }
+        }
+        xhr.open('get', 'http://localhost:5236/api/RestaurantCategory', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        xhr.send();
+      
+      
+        </script>
+    </head>
+    <body>
+        <!-- Navigation bar-->
+        <div class="container">
+
+            <div class="navigation">
+
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="icon"><ion-icon name="fast-food-outline"></ion-icon></span>
+                            <span class="title" id=resname>Restaurant Name</span>
+                        </a>
+                        <script>
+                           
+                            var name = sessionStorage.getItem("restaurantname");
+                           document.getElementById('resname').textContent= name.toUpperCase();
+                            
+                        </script>
+                    </li>
+                    <li>
+                        <a href="restaurantPanel.html" class="active">
+                            <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                            <span class="title">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customers.html">
+                            <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+                            <span class="title">Customers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="foodmanagement.html">
+                            <span class="icon"><ion-icon name="pizza-outline"></ion-icon></span>
+                            <span class="title">Food Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="ordermanagement.html">
+                            <span class="icon"><ion-icon name="car-sport-outline"></ion-icon></span>
+                            <span class="title">order management</span>
+                        </a>
+                    </li>
+
+                  
+                    <!-- <li>
+                        <a href="password-update.html">
+                            <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                            <span class="title">Password</span>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a onclick="logoutFunction()">
+                            <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                            <span class="title">Log out</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Main-->
+            <div class="main">
+
+              
+                <div class="topbar">
+                    <div class="toggle">
+                        <ion-icon name="menu-outline"></ion-icon>
+                    </div>
+                    <!-- Search
+                    <div class="search">
+                        <label for="">
+                            <input type="text" placeholder="Search here">
+                            <ion-icon name="search-outline"></ion-icon>
+                        </label>
+                    </div>-->
+                     <!-- UserImg-->
+                     <div class="user">
+                        <img src="logo.png" alt="website logo">
+                     </div>
+                </div>
+
+                <!--Cards-->
+                <div class="cardBox">
+                    <div class="card">
+                        <div>
+                            <div class="numbers" id="numcust">0</div>
+                            <div class="cardName">Customers</div>
+                        </div>
+                        <div class="iconBx">
+                            <ion-icon name="accessibility-outline"></ion-icon> 
+                        </div>
+                    </div>
+                    <!-- <div class="card">
+                        <div>
+                            <div class="numbers">$150</div>
+                            <div class="cardName">Earning</div>
+                        </div>
+                        <div class="iconBx">
+                            <ion-icon name="cash-outline"></ion-icon>
+                        </div>
+                    </div> -->
+                    <div class="card">
+                        <div>
+                            <div class="numbers" id="numoforders">0</div>
+                            <div class="cardName">Orders</div>
+                        </div>
+                        <div class="iconBx">
+                            <ion-icon name="cart-outline"></ion-icon>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="details">
+                     <!--order details list-->
+                    <div class="recentOrders">
+                        <div class="cardHeader">
+                            <h2>Recent Orders</h2>
+                            <a href="ordermanagement.html" class="btn">View All </a>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Food Name</td>
+                                    <td>Customer Name</td>
+                                    <td>Price</td>
+                                    <td>Qtty</td>
+                                    <td>Date</td>
+                                    <td>Status</td>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersByCust">
+
+                            </tbody>
+                        </table>
+
+
+                       
+
+
+                    </div>
+
+                     <!--New Customers-->
+                    <div class="recentCustomers">
+                        <div class="cardHeader">
+                            <h2>Recent Customers</h2> 
+                        </div>
+                        <table id="recentcustomers">
+                            <tr>
+                               <!-- <td width="60px"><div class="imgBx"><img src=""></div> </td>-->
+                               <!--  <td><h4>Customer1<br><span>Address1</span></h4></td>-->
+                            </tr>
+                            
+                        </table>
+
+                      
+
+                        <script>
+                                 const table= document.getElementById("recentcustomers");
+                                const numberCust= document.getElementById("numcust");
+                                
+
+
+                            var xhr = new XMLHttpRequest();
+                                    xhr.onreadystatechange = function () {
+                                        if (xhr.readyState === 3) {
+                                        var myObj= JSON.parse(xhr.responseText);
+                                            sessionStorage.setItem("restaurantCustomers", xhr.responseText);
+                                            numberCust.innerHTML= myObj.length;
+                                            
+                                            sessionStorage.setItem("numberofcustomers", myObj.length);
+                                            for (let i = 0; i < myObj.length ; i++) {
+                                                var elm = table.insertRow();
+                                                var col=elm.insertCell();
+                                                col.innerHTML="<h4 onclick=\"showUser("+myObj[i].userid+")\">"+myObj[i].fname+" " +myObj[i].lname+"<br><span>"+myObj[i].address+"</span></h4>";
+                                            } 
+                                        }
+                                    }
+                                    var urlstr= "http://localhost:5236/api/Restaurant/logindata/"+sessionStorage.getItem("restaurantusername");
+                                    //alert(urlstr);
+                                    xhr.open('get', urlstr, true);
+                                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                                    xhr.send();
+      
+
+
+
+
+                           
+                                
+                        </script>
+
+
+                        <script>
+                            //http://localhost:5236/api/Orders/OrdersToRestaurant/2
+
+                            const ordzTable = document.getElementById("ordersByCust");
+
+
+                            var xhr4 = new XMLHttpRequest();
+                                    xhr4.onreadystatechange = function () {
+                                        if (xhr4.readyState === 3) {
+                                        var myObj= JSON.parse(xhr4.responseText);
+                                        document.getElementById("numoforders").innerHTML= myObj.length;
+                                       
+                                        sessionStorage.setItem("orderstorestaurant", xhr4.responseText);
+                                        // JUST SHOWING A MAX OF 5 ORDERS
+                                        for(let i=0; i<(Math.min(myObj.length), 5); i++){
+                                            var roww= ordzTable.insertRow();
+
+                                            for(let j=0; j<6; j++){
+                                                var coll= roww.insertCell();
+                                                switch(j){
+                                                    case 0:coll.innerHTML="<td>"+getItemName(myObj[i].itemid)+"</td>"; break;
+                                                    case 1:coll.innerHTML="<td>"+getCustomerName(myObj[i].userid)+"</td>"; break;
+                                                    case 2:coll.innerHTML="<td>$"+myObj[i].price+"</td>"; break;
+                                                    case 3:coll.innerHTML="<td>"+myObj[i].quantity+"</td>"; break;
+                                                    case 4:coll.innerHTML="<td>"+myObj[i].dateoforder.slice(0,10)+"</td>"; break;
+                                                    case 5:coll.innerHTML="<td><span class= \"status "+getStatusName(myObj[i].statusid)+"\">"+getStatusName(myObj[i].statusid)+"</span></td>"; break;
+
+                                                }
+                                            }
+                                        }
+                                        }
+                                    }
+                                    var urlstr= "http://localhost:5236/api/Orders/OrdersToRestaurant/"+sessionStorage.getItem("restaurantid");
+                                    //alert(urlstr);
+                                    xhr4.open('get', urlstr, true);
+                                    xhr4.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                                    xhr4.send();
+
+
+
+                                    function getCustomerName(id){
+                                        //alert("get cust name on user id: "+id );
+                                        var customers= sessionStorage.getItem("restaurantCustomers");
+                                        var myObj= JSON.parse(customers);
+
+                                        for(let i=0; i<myObj.length; i++){
+                                            //alert(myObj[i].userid)
+                                            if(myObj[i].userid== id){
+                                                return myObj[i].fname;
+                                            }
+                                        }
+                                        return "not set";
+                                    }
+
+                                    function getStatusName(id){
+                                        var status1= sessionStorage.getItem("status");
+                                       
+                                        var myObj= JSON.parse(status1);
+                                        switch(id){
+                                            case 1: return myObj[0].statusname;
+                                            case 2: return myObj[1].statusname;
+                                            case 3: return myObj[2].statusname;
+                                            default: return "not set";
+                                        }
+                                    }
+
+                                    function getItemName(id){
+                                        var items= sessionStorage.getItem("allitems");
+                                        //alert(items);
+                                        var myObj1= JSON.parse(items);
+                                        for(let i=0; i<myObj1.length; i++){
+                                            if(myObj1[i].itemid== id){
+                                                return myObj1[i].name;
+                                            }
+                                        }
+                                        return "not set";
+                                    }
+
+                        </script>
+                    </div>
+
+
+                </div>
+                <div class="Modal" id="showuser" style="display:none;">
+                    <h2 class="Modal-InText" id="userinfo">
+                      
+                    </h2>
+                    <!-- <button class="Modal-InBtn Btn-Right">Yup </button> -->
+                     <button class="Modal-InBtn Btn-Left" onclick="disappear()">Done</button>
+                  </div>
+
+                  <script>
+                      function disappear(){
+
+                            document.getElementById("showuser").style.display="none";
+
+                      }
+
+                      function showUser(id){
+
+                        document.getElementById("showuser").style.display="block";
+                        const userinfo= document.getElementById("userinfo");
+                        
+                        var str="";
+                            
+                        var xhr3 = new XMLHttpRequest();
+                                    xhr3.onreadystatechange = function () {
+                                        if (xhr3.readyState === 3) {
+                                           
+                                        var myObj= JSON.parse(xhr3.responseText);
+                                        
+                                            for (let i = 0; i <4 ; i++) {
+                                                switch(i){
+                                                    case 0: str+="<ul><li><p style=\"color:blue;\">First Name: </p>"+myObj.fname;break;
+                                                    case 1: str+="<li><p style=\"color:blue;\">Last Name: </p>"+myObj.lname;break;
+                                                    case 2: str+="<li><p style=\"color:blue;\">Phone Number: </p>"+myObj.phoneNumber;break;
+                                                    case 3: str+="<li><p style=\"color:blue;\">Address: </p>"+myObj.address+"</ul>";break;
+
+                                                }
+                                                
+                                            } 
+                                            userinfo.innerHTML=str;
+                                        }
+                                    }
+                                    var urlstr= "http://localhost:5236/api/Users/"+id;
+                                    //alert(urlstr);
+                                    xhr3.open('get', urlstr, true);
+                                    xhr3.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                                    xhr3.send();
+                      }
+                      </script>
+            
+            </div>
+        </div>
+         <!-- Navigation bar ends-->
+
+
+
+
+        <!--Icons-->
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script>
+            //MenuToggle
+            let toggle= document.querySelector('.toggle');
+            let navigation= document.querySelector('.navigation');
+            let main= document.querySelector('.main');
+
+            toggle.onclick=function(){
+                navigation.classList.toggle('active');
+                main.classList.toggle('active');
+            }
+
+            //add hovered class in selected list item
+            let list = document.querySelectorAll('.navigation li');
+            function activeLink(){
+                list.forEach((item)=> 
+                item.classList.remove('hovered'));
+                this.classList.add('hovered');
+            }
+            list.forEach((item)=>
+            item.addEventListener('mouseover',activeLink));
+        </script>
+    </body>
+</html>
