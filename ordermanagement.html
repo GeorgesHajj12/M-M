@@ -10,11 +10,7 @@
         <script src="JS/manageSession.js"></script> 
 
 
-        <!-- <script>
-            var name = sessionStorage.getItem("restaurantname");
-            javascript:void(alert(document.getElementById(resName).text));
-            span.textContent = 'Replacement span text';
-        </script> -->
+      
     </head>
     <body>
 
@@ -26,13 +22,8 @@
                     <li>
                         <a href="#">
                             <span class="icon"><ion-icon name="fast-food-outline"></ion-icon></span>
-                            <span class="title" id=resname>Restaurant Name</span>
-                            <script>
-                           
-                                var name = sessionStorage.getItem("restaurantname");
-                               document.getElementById('resname').textContent= name.toUpperCase();
-                                
-                            </script>
+                            <span class="title" id=resname>M&M</span>
+                         
                         </a>
                     </li>
                     <li>
@@ -59,37 +50,11 @@
                             <span class="title">order management</span>
                         </a>
                     </li>
-                    <!--
+                  
                     <li>
-                        <a href="#">
-                            <span class="icon"><ion-icon name="call-outline"></ion-icon></span>
-                            <span class="title">Message</span>
-                        </a>
-                    </li>
-                    
-                    <li>
-                        <a href="#">
-                            <span class="icon"><ion-icon name="help-outline"></ion-icon></span>
-                            <span class="title">Help</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
-                            <span class="title">Settings</span>
-                        </a>
-                    </li>-->
-<!--                   
-                    <li>
-                        <a href="password-update.html">
-                            <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
-                            <span class="title">Password</span>
-                        </a>
-                    </li> -->
-                    <li>
-                        <a onclick="logoutFunction()">
+                        <a href="index.html">
                             <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
-                            <span class="title"onclick="logoutFunction()">Log out</span>
+                            <span class="title">Home </span>
                         </a>
                     </li>
                 </ul>
@@ -110,7 +75,7 @@
                     </div>-->
                      <!-- UserImg-->
                      <div class="user">
-                        <img src="logo.png" alt="">
+                        <a href="index.html"> <img src="logo.png" alt="website logo"></a>
                      </div>
                 </div>
 
@@ -118,7 +83,7 @@
                 <div class="cardBox">
                     <div class="card">
                         <div>
-                            <div class="numbers" id="numoforders">0</div>
+                            <div class="numbers" id="numoforders">5</div>
                             <div class="cardName">Total Orders</div>
                         </div>
                         <div class="iconBx">
@@ -145,149 +110,54 @@
                                     <td>Payment</td>
                                     <td>Date</td>
                                     <td>Status</td>
-                                    <td>Change Status</td>
                                 </tr>
                             </thead>
                             <tbody id="orderstable" >
-                                <!-- <tr>
-                                    <td>Food 1</td>
-                                    <td>Name</td>
-                                    <td>$$Se3er</td>
+                                 <tr>
+                                    <td>Burger</td>
+                                    <td>Georges Saad</td>
+                                    <td>2.5$</td>
                                     <td>Paid</td>
-                                    <td>Date 1</td>
+                                    <td>5-12-2022</td>
                                     <td><span class="status delivered">Delivered</span></td>
-                                    <td><Select>
-                                        <option>Delivered</option>
-                                        <option>Pending</option>
-                                        <option>Canceled</option>
-                                    </Select></td>
+                                  
                                 </tr>
                                 <tr>
-                                    <td>Food 2</td>
-                                    <td>Name</td>
-                                    <td>$$Se3er</td>
-                                    <td>Due</td>
-                                    <td>Date 2</td>
-                                    <td><span class="status pending">Pending</span></td>
-                                    <td><Button style="color:green;"><b>delivered</b></Button>|<Button style="color:red;"><b>canceled</b></Button>
-                                    </td>
-                                </tr> -->
+                                    <td>Chicken Sandwich</td>
+                                    <td>Souha Aboud</td>
+                                    <td>3$</td>
+                                    <td>Paid</td>
+                                    <td>4-12-2022</td>
+                                    <td><span class="status delivered">Delivered</span></td>
+                                </tr> 
+                                <tr>
+                                    <td>Salad</td>
+                                    <td>Christelle bou Ghannam</td>
+                                    <td>3$</td>
+                                    <td>Paid</td>
+                                    <td>2-12-2022</td>
+                                    <td><span class="status delivered">Delivered</span></td>
+                                </tr> 
+                                <tr>
+                                    <td>Pizza</td>
+                                    <td>Khalil Aoun</td>
+                                    <td>7$</td>
+                                    <td>Paid</td>
+                                    <td>1-12-2022</td>
+                                    <td><span class="status delivered">Delivered</span></td>
+                                </tr> 
+                                <tr>
+                                    <td>Steak</td>
+                                    <td>Sarah Alam</td>
+                                    <td>10$</td>
+                                    <td>Paid</td>
+                                    <td>29-11-2022</td>
+                                    <td><span class="status delivered">Delivered</span></td>
+                                </tr> 
 
                             </tbody>
                         </table>
-                        <script>
-                            const orderstable= document.getElementById("orderstable");
-                            
-                            var orders= sessionStorage.getItem("orderstorestaurant");
-                            var myObj= JSON.parse(orders);
-
-                            document.getElementById("numoforders").innerHTML=myObj.length;
-
-
-
-                            for(let i=0; i<(myObj.length); i++){
-                                            var roww2= orderstable.insertRow();
-
-                                            for(let j=0; j<7; j++){
-                                                var coll2= roww2.insertCell();
-                                                switch(j){
-                                                    case 0:coll2.innerHTML="<td>"+getItemName(myObj[i].itemid)+"</td>"; break;
-                                                    case 1:coll2.innerHTML="<td>"+getCustomerName(myObj[i].userid)+"</td>"; break;
-                                                    case 2:coll2.innerHTML="<td>$"+myObj[i].price+"</td>"; break;
-                                                    case 3:coll2.innerHTML="<td>"+myObj[i].quantity+"</td>"; break;
-                                                    case 4:coll2.innerHTML="<td>"+myObj[i].dateoforder+"</td>"; break;
-                                                    case 5:coll2.innerHTML="<td><span id=\"stts"+myObj[i].orderid+"\" class= \"status "+getStatusName(myObj[i].statusid)+"\">"+getStatusName(myObj[i].statusid)+"</span></td>"; break;
-                                                    case 6:coll2.innerHTML="<td><Button id=\"deliv"+myObj[i].orderid+"\"style=\"color:green;\" onclick=\"deliverOrder("+myObj[i].orderid+")\"><b>delivered</b></Button>|<Button id=\"cancel"+myObj[i].orderid+"\"style=\"color:red;\" onclick=\"cancelOrder("+myObj[i].orderid+")\"><b>canceled</b></Button>";
-                                                        if(myObj[i].statusid==2){
-                                                            deliverOrder(myObj[i].orderid);
-                                                        }else if(myObj[i].statusid==3){
-                                                            cancelOrder(myObj[i].orderid);
-                                                        }
-
-                                                }
-                                            }
-                                        }
-                                    
-
-
-                                        function getCustomerName(id){
-                                        //alert("get cust name on user id: "+id );
-                                        var customers= sessionStorage.getItem("restaurantCustomers");
-                                        var myObj= JSON.parse(customers);
-
-                                        for(let i=0; i<myObj.length; i++){
-                                            //alert(myObj[i].userid)
-                                            if(myObj[i].userid== id){
-                                                return myObj[i].fname;
-                                            }
-                                        }
-                                        return "not set";
-                                    }
-
-                                    function getStatusName(id){
-                                        var status1= sessionStorage.getItem("status");
-                                       
-                                        var myObj= JSON.parse(status1);
-                                        switch(id){
-                                            case 1: return myObj[0].statusname;
-                                            case 2: return myObj[1].statusname;
-                                            case 3: return myObj[2].statusname;
-                                            default: return "not set";
-                                        }
-                                    }
-
-                                    function getItemName(id){
-                                        var items= sessionStorage.getItem("allitems");
-                                       
-                                        var myObj1= JSON.parse(items);
-                                        for(let i=0; i<myObj1.length; i++){
-                                            if(myObj1[i].itemid== id){
-                                                return myObj1[i].name;
-                                            }
-                                        }
-                                        return "not set";
-                                    }
-
-                                    function deliverOrder(id){
-                                        var status = document.getElementById("stts"+id);
-                                        status.className="status delivered";
-                                        status.innerHTML="delivered";
-                                        document.getElementById("deliv"+id).disabled= true;
-                                        document.getElementById("cancel"+id).disabled= true;
-                                        changeStatusInDb(id, 2);
-
-
-                                    }
-
-                                    function cancelOrder(id){
-                                        var status = document.getElementById("stts"+id);
-                                        status.className="status canceled";
-                                        status.innerHTML="canceled";
-                                        document.getElementById("deliv"+id).disabled= true;
-                                        document.getElementById("cancel"+id).disabled= true;
-                                        changeStatusInDb(id, 3);
-                                    }
-
-                                    function changeStatusInDb(orderid, newStts){
-                                        var xhr = new XMLHttpRequest();
-                                        //alert(orderid+ "   "+ newStts);
-
-                                        xhr.onreadystatechange = function () {
-                                            if (xhr.readyState === 3) {
-                                                //alert(xhr.responseText);
-
-
-                                            }
-                                        }
-
-                                            var urlstr= "http://localhost:5236/api/Orders/changeStatus/"+orderid+"/"+newStts;
-                                            //alert(urlstr);
-                                            xhr.open('get', urlstr, true);
-                                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-                                            xhr.send();
-                                            updateOrdersInSession(sessionStorage.getItem("restautantid"));
-                                    }
-                        </script>
+                        
                     </div>
 
 

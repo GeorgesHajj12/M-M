@@ -16,13 +16,8 @@
                     <li>
                         <a href="#">
                             <span class="icon"><ion-icon name="fast-food-outline"></ion-icon></span>
-                            <span class="title" id=resname>Restaurant Name</span>
-                            <script>
-                           
-                                var name = sessionStorage.getItem("restaurantname");
-                               document.getElementById('resname').textContent= name.toUpperCase();
-                                
-                            </script>
+                            <span class="title" id=resname>M&M</span>
+                            
                         </a>
                     </li>
                     <li>
@@ -49,37 +44,11 @@
                             <span class="title">order management</span>
                         </a>
                     </li>
-                    <!--
-                    <li>
-                        <a href="#">
-                            <span class="icon"><ion-icon name="call-outline"></ion-icon></span>
-                            <span class="title">Message</span>
-                        </a>
-                    </li>
-                    
-                    <li>
-                        <a href="#">
-                            <span class="icon"><ion-icon name="help-outline"></ion-icon></span>
-                            <span class="title">Help</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
-                            <span class="title">Settings</span>
-                        </a>
-                    </li>-->
                   
-                    <!-- <li>
-                        <a href="password-update.html">
-                            <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
-                            <span class="title">Password</span>
-                        </a>
-                    </li> -->
                     <li>
-                        <a onclick="logoutFunction()">
+                        <a href="index.html">
                             <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
-                            <span class="title" onclick="logoutFunction()">Log out</span>
+                            <span class="title">Home </span>
                         </a>
                     </li>
                 </ul>
@@ -100,7 +69,7 @@
                     </div>-->
                      <!-- UserImg-->
                      <div class="user">
-                        <img src="logo.png" alt="">
+                        <a href="index.html"> <img src="logo.png" alt="website logo"></a>
                      </div>
                 </div>
 
@@ -108,10 +77,9 @@
                 <div class="cardBox">
                     <div class="card">
                         <div>
-                            <div class="numbers" id="totalcustomers">0</div>
-                            <script>
-                                document.getElementById("totalcustomers").innerHTML= sessionStorage.getItem("numberofcustomers");
-                            </script>
+                            <div class="numbers" id="totalcustomers">5</div>
+                            
+                           
                             <div class="cardName">Total Customers</div>
                         </div>
                         <div class="iconBx">
@@ -138,56 +106,40 @@
                                     <td>Address</td>
                                 </tr>
                             </thead>
-                            <tbody id="customers">
-                                
+                            <tbody >
+                                <td>Georges</td>
+                                <td>Saad</td>
+                                <td>76179033</td>
+                                <td>Fanar</td>
+                                <tr>
+                                    <td>Souha</td>
+                                    <td>Aboud</td>
+                                    <td>70987654</td>
+                                    <td>Mansourieh</td>
+                                </tr>
+                                <tr>
+                                    <td>Christelle</td>
+                                    <td>Bou Ghannam</td>
+                                    <td>71344556</td>
+                                    <td>Baouchrie</td>
+                                </tr>
+                                <tr>
+                                    <td>Khalil</td>
+                                    <td>Aoun</td>
+                                    <td>71789009</td>
+                                    <td>Roumieh</td>
+                                </tr>
+                                <tr>
+                                    <td>Sarah</td>
+                                    <td>Alam</td>
+                                    <td>78888976</td>
+                                    <td>Dekwene</td>
+                                </tr>
                             </tbody>
                         </table>
 
 
-                        <script>
-                            const table= document.getElementById("customers");
-                           //const numberCust= document.getElementById("numcust");
-                           
-
-
-                       var xhr = new XMLHttpRequest();
-                               xhr.onreadystatechange = function () {
-                                   if (xhr.readyState === 3) {
-                                   var myObj= JSON.parse(xhr.responseText);
-                                
-                                       
-                                       
-                                       for (let i = 0; i < myObj.length ; i++) {
-                                           var elm = table.insertRow();
-                                           
-                                           for(let j=0; j<4; j++)
-                                           {
-                                            var col=elm.insertCell();
-                                               switch(j){
-                                                   case 0:col.innerHTML="<td>"+myObj[i].fname+"</td>"; break;
-                                                   case 1:col.innerHTML="<td>"+myObj[i].lname+"</td>"; break;
-                                                   case 2:col.innerHTML="<td>"+myObj[i].phoneNumber+"</td>"; break;
-                                                   case 3:col.innerHTML="<td>"+myObj[i].address+"</td>"; break;
-                                               }
-                                              
-                                              
-                                           }
-                                       } 
-                                   }
-                               }
-                               var urlstr= "http://localhost:5236/api/Restaurant/logindata/"+sessionStorage.getItem("restaurantusername");
-                               //alert(urlstr);
-                               xhr.open('get', urlstr, true);
-                               xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-                               xhr.send();
- 
-
-
-
-
-                      
-                           
-                   </script>
+                       
                     </div>
 
 
