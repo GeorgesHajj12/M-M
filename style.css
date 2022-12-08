@@ -323,6 +323,15 @@ header .icons #menu-bars{
     overflow: auto;
     padding: 0 20px;
 }
+
+.khalilcontainer{
+
+        margin: auto; /* push to the middle */
+        width: 100%;
+        overflow: auto;
+        padding: 0 20px;
+
+}
 .container2{
     margin: auto; /* push to the middle */
     max-width: 95%;
